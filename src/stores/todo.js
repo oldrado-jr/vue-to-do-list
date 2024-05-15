@@ -12,7 +12,12 @@ const useTodoStore = defineStore('todo', {
       this.todos.push(addedTodo);
     },
     async updateTodo(data, id) {
-      await updateTodo(data, id);
+      const updatedTodo = await updateTodo(data, id);
+      const index = this.todos.findIndex((todo) => todo.id === id);
+
+      if (index >= 0) {
+        this.todos.splice(index, 1, updatedTodo);
+      }
     },
   },
 });
