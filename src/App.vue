@@ -2,7 +2,6 @@
   import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
 
-  import { getAll } from './services/todoService';
   import useTodoStore from './stores/todo';
 
   import TodoSpinner from './components/TodoSpinner.vue';
@@ -13,13 +12,13 @@
   const todoStore = useTodoStore();
 
   const { todos } = storeToRefs(todoStore);
-  const { initFrom } = todoStore;
+  const { getTodos } = todoStore;
 
   const loading = ref(true);
 
   (async () => {
     try {
-      initFrom(await getAll());
+      await getTodos();
     } finally {
       loading.value = false;
     }
