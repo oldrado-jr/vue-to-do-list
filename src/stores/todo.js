@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getAll, addTodo, updateTodo } from '../services/todoService';
+import { getAll, addTodo, updateTodo, deleteTodo } from '../services/todoService';
 
 const useTodoStore = defineStore('todo', {
   state: () => ({ todos: [] }),
@@ -19,6 +19,10 @@ const useTodoStore = defineStore('todo', {
         this.todos.splice(index, 1, updatedTodo);
       }
     },
+    async deleteTodo(id) {
+      await deleteTodo(id);
+      this.todos = this.todos.filter((todo) => todo.id !== id);
+    }
   },
 });
 

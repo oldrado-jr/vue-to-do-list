@@ -14,3 +14,8 @@ export const updateTodo = async (data, id) => {
   const config = requestConfig('PATCH', data);
   return await fetchAPI(`${apiEndpoint}/todos/${id}`, config);
 };
+
+export const deleteTodo = async (id) => {
+  const config = requestConfig('DELETE');
+  return await fetchAPI(`${apiEndpoint}/todos/${id}`, config);
+};
