@@ -1,10 +1,44 @@
 <script setup>
+  import { ref } from 'vue';
+
+  import useTodoStore from '../stores/todo';
+
+  const todoStore = useTodoStore();
+
+  const { updateTodo } = todoStore;
+
   const { todo } = defineProps({
     todo: {
       type: Object,
       default: {},
     },
   });
+
+  const handleUpdateTitle = async (e) => {
+    const newTitle = e.target.value;
+
+    if (!newTitle) {
+      return;
+    }
+
+    const data = {
+      title: newTitle,
+    };
+
+    await updateTodo(data, todo.id);
+  };
+
+  const isCompleted = ref(todo.completed);
+
+  const handleToggleCompleted = async () => {
+    isCompleted.value = !isCompleted.value;
+
+    const data = {
+      completed: isCompleted.value,
+    };
+
+    await updateTodo(data, todo.id);
+  };
 </script>
 
 <template>
@@ -13,7 +47,8 @@
 border-gray-400 last:border-b-0">
       <div class="flex items-center justify-center
 mr-2">
-        <button :class="todo.completed ? 'text-green-400' : 'text-gray-400'">
+        <button @click="handleToggleCompleted"
+          :class="isCompleted ? 'text-green-400' : 'text-gray-400'">
           <svg class="w-5 h-5" fill="none" stroke="currentColor"
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -23,8 +58,8 @@ mr-2">
       </div>
 
       <div class="w-full">
-        <input type="text" placeholder="Digite a sua tarefa" :value="todo.title"
-          class="bg-gray-300 placeholder-gray-500
+        <input @keyup.enter="handleUpdateTitle" type="text"
+          placeholder="Digite a sua tarefa" :value="todo.title" class="bg-gray-300 placeholder-gray-500
 text-gray-700 font-light focus:outline-none block w-full appearance-none
 leading-normal mr-3">
       </div>
