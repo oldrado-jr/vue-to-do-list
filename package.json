@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "cp db.json.example db.json",
+    "prepare": "cp db.json.example db.json && cp .env.example .env.local",
     "start": "run-p dev server",
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "json-server": "^0.17.4",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21"
   },
   "devDependencies": {
